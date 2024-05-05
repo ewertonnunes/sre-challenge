@@ -50,13 +50,13 @@ jobs:
       uses: hashicorp/setup-terraform@v1
 
     - name: Terraform Init
-      run: terraform init ./infra
+      run: terraform -chdir="./infra" init
 
     - name: Terraform Validate
-      run: terraform validate -no-color ./infra
+      run: terraform -chdir="./infra" validate -no-color
 
     - name: Terraform Plan
-      run: terraform plan -no-color ./infra
+      run: terraform -chdir="./infra" plan -no-color
 
       continue-on-error: true
 
@@ -73,10 +73,10 @@ jobs:
     - name: Terraform Apply
       id: apply
       if: github.ref == 'refs/heads/main' && steps.check_destroy.outputs.destroy == 'false'
-      run: terraform apply -auto-approve -no-color ./infra
+      run: terraform -chdir="./infra" apply -auto-approve -no-color
 
     - name: Terraform Destroy
       id: destroy
       if: steps.check_destroy.outputs.destroy == 'true'
-      run: terraform destroy -auto-approve ./infra
+      run: terraform -chdir="./infra" destroy -auto-approve
 
