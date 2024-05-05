@@ -96,3 +96,6 @@ users:
 
 
       try
+
+
+      kubectl config view --minify --flatten > kubeconfig.yaml
