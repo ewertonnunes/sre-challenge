@@ -60,8 +60,8 @@ jobs:
       uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: 1.0.0
-        context: infra
-
+        tf_actions_working_dir: 'infra'
+        
     - name: Terraform Init
       run: terraform init
 
@@ -118,6 +118,7 @@ jobs:
       - build
       - aws-credentials
       - terraform
+      - kubernetes
 
     steps:
     - name: Checkout code
