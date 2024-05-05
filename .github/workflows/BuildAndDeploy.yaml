@@ -114,7 +114,6 @@ jobs:
     needs: 
       - build
       - aws-credentials
-      - terraform
       - kubernetes
 
     steps:
