@@ -60,7 +60,7 @@ jobs:
       uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: 1.0.0
-        tf_actions_working_dir: 'infra'
+        context: infra
         
     - name: Terraform Init
       run: terraform init
@@ -107,9 +107,6 @@ jobs:
         version: 'latest'
       env:
        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-
-    - name: Test Run
-      run: kubectl get nodes
 
   helm:
     name: Helm Execution Steps
