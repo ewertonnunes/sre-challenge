@@ -5,5 +5,5 @@ resource "aws_lb" "app_load_balancer" {
   security_groups    = [aws_security_group.sg_load_balancer.id]
   subnets            = var.subnets
 
-  enable_deletion_protection = true
+  enable_deletion_protection = false
 }

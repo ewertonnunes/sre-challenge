@@ -1,59 +1,19 @@
-/* variable environment {
-  type = string
-  default = dev
-} */
-
-/* variable aws_region {
+variable "name" {
   type = string
 }
 
-variable aws_access_key_id {
-  type = string
-}
-
-variable aws_secret_access_key {
-  type = string
-}
- */
-
-#ALB
-variable name {
-  type = string
-}
-
-variable subnets {
+variable "subnets" {
   type = list(string)
 }
 
-variable internal {
+variable "internal" {
   type = bool
 }
 
-variable load_balancer_type {
-  type = string
-}
-/* 
-variable lb_protocol {
+variable "load_balancer_type" {
   type = string
 }
 
-variable lb_backend_port {
-  type = number
-}
-
-#target groups
-variable target_group_name {
+variable "vpc_id" {
   type = string
 }
-
-variable target_listener_port {
-  type = number
-}
-
-variable target_listener_protocol {
-  type = string
-}
-variable target_type {
-  type = string
-}
- */
