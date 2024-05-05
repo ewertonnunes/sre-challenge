@@ -51,9 +51,9 @@ jobs:
   terraform:
     name: Terraform Execution Steps
     runs-on: ubuntu-latest
-    needs: 
-      - build
-      - aws-credentials
+#    needs: 
+#      - build
+#      - aws-credentials
 
     steps:
     - name: Checkout code
