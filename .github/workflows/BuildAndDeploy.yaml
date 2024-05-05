@@ -51,9 +51,6 @@ jobs:
   terraform:
     name: Terraform Execution Steps
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: /infra
     needs: 
       - build
       - aws-credentials
@@ -63,6 +60,8 @@ jobs:
       uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: 1.0.0
+      env:
+        TF_ACTION_WORKING_DIR: 'terraform'
         
     - name: Terraform Init
       run: terraform init
