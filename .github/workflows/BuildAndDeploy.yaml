@@ -69,7 +69,7 @@ jobs:
     - name: Terraform Plan
       uses: hashicorp/terraform-github-actions/apply@v0.4.0
       env:
-        TF_ACTION_WORKING_DIR: 'terraform'
+        TF_ACTION_WORKING_DIR: 'infra'
 
       continue-on-error: true
 
@@ -87,13 +87,13 @@ jobs:
       if: github.ref == 'refs/heads/main' && steps.check_destroy.outputs.destroy == 'false'
       uses: hashicorp/terraform-github-actions/apply@v0.4.0
       env:
-        TF_ACTION_WORKING_DIR: 'terraform'
+        TF_ACTION_WORKING_DIR: 'infra'
 
     - name: Terraform Destroy
       if: steps.check_destroy.outputs.destroy == 'true'
       uses: hashicorp/terraform-github-actions/apply@v0.4.0
       env:
-        TF_ACTION_WORKING_DIR: 'terraform'
+        TF_ACTION_WORKING_DIR: 'infra'
 
   kubernetes:
     name: EKS Auth And Helm Deploy
@@ -106,7 +106,8 @@ jobs:
     - name: Set Up Kube Config Data
       uses: azure/setup-kubectl@v1
       with:
-        version: 'latest'
+        eks-region: us-east-1
+        eks-cluster-name: app-eks-cluster
       env:
        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
 
