@@ -55,22 +55,21 @@ jobs:
       - build
       - aws-credentials
 
-    steps:
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 1.0.0
-      env:
-        TF_ACTION_WORKING_DIR: 'infra'
+    - name: Checkout Repo
+      uses: actions/checkout@v1
         
     - name: Terraform Init
-      run: terraform init
+      uses: hashicorp/terraform-github-actions/init@v0.4.0
+      env:
+        TF_ACTION_WORKING_DIR: 'infra'
 
     - name: Terraform Validate
-      run: terraform validate -no-color
+      uses: hashicorp/terraform-github-actions/validate@v0.3.7
 
     - name: Terraform Plan
-      run: terraform plan -no-color
+      uses: hashicorp/terraform-github-actions/apply@v0.4.0
+      env:
+        TF_ACTION_WORKING_DIR: 'terraform'
 
       continue-on-error: true
 
@@ -85,14 +84,16 @@ jobs:
         fi
 
     - name: Terraform Apply
-      id: apply
       if: github.ref == 'refs/heads/main' && steps.check_destroy.outputs.destroy == 'false'
-      run: terraform apply -auto-approve -no-color
+      uses: hashicorp/terraform-github-actions/apply@v0.4.0
+      env:
+        TF_ACTION_WORKING_DIR: 'terraform'
 
     - name: Terraform Destroy
-      id: destroy
       if: steps.check_destroy.outputs.destroy == 'true'
-      run: terraform destroy -auto-approve
+      uses: hashicorp/terraform-github-actions/apply@v0.4.0
+      env:
+        TF_ACTION_WORKING_DIR: 'terraform'
 
   kubernetes:
     name: EKS Auth And Helm Deploy
