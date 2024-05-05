@@ -22,21 +22,22 @@ jobs:
       run: mvn -f app/pom.xml -B clean package
 
   docker:
-    name: Build Docker Image
-    runs-on: ubuntu-latest
-    needs: build
+     name: Build Docker Image
+     runs-on: ubuntu-latest
+     needs: build
 
-    - name: Login Docker Hub
-      uses: docker/login-action@v1
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_PASS }}
+     steps: 
+      - name: Login Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASS }}
 
-    - name: Build Image
-      run: docker build -t ewertonrdr/app:${{ github.sha }} .
+      - name: Build Image
+        run: docker build -t ewertonrdr/app:${{ github.sha }} .
 
-    - name: Push Image
-      run: docker push ewertonrdr/app:${{ github.sha }}
+      - name: Push Image
+        run: docker push ewertonrdr/app:${{ github.sha }}
 
   aws-credentials:
     runs-on: ubuntu-latest
