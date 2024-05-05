@@ -20,3 +20,5 @@ helm package ./app -d ./helm --version ${{ github.sha }}
      needs: build
 
      steps: 
+
+     toto
