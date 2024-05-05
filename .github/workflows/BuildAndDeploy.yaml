@@ -51,6 +51,9 @@ jobs:
   terraform:
     name: Terraform Execution Steps
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./infra
     needs: 
       - build
       - aws-credentials
@@ -60,7 +63,6 @@ jobs:
       uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: 1.0.0
-        context: infra
         
     - name: Terraform Init
       run: terraform init
@@ -113,5 +115,4 @@ jobs:
       run: echo "::set-output name=docker_version::$(echo ${{ github.sha }} | cut -c1-7)"
 
     - name: Create Helm Release
-      run: helm upgrade --install app --set image.tag=${{ steps.docker_image_version.outputs.docker_version }} ewertonrdr/app --version 1.0.0
-
+      run: helm upgrade --install app --set image.tag=${{ steps.docker_image_version.outputs.docker_version }} ewertonrdr/app --version 1.0.0 ./helm
