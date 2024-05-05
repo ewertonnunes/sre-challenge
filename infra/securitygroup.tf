@@ -1,6 +1,6 @@
 resource "aws_security_group" "sg_load_balancer" {
-  name        = "sg_load_balancer"
-  description = "Security Group para uso do LB."
+  name        = "sg_load_balancer-${var.name}"
+  description = "Security Group para uso do LB ${var.name}."
   
   ingress {
     from_port   = 443
