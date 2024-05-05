@@ -24,18 +24,18 @@ jobs:
 #    - name: Move Jar artifact to /app dir
 #      run: mv app/target/*.jar app/app.jar
 
-     - name: Login Docker Hub
-       uses: docker/login-action@v1
-       with:
-         username: ${{ secrets.DOCKERHUB_USERNAME }}
-         password: ${{ secrets.DOCKERHUB_PASS }}
+    - name: Login Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASS }}
 
-     - name: Build and Push
-       uses: docker/build-push-action@v5
-       with:
-         context: "{{defaultContext}}:app"
-         push: true
-         tags: ewertonrdr/app:${{ github.sha }}
+    - name: Build and Push
+      uses: docker/build-push-action@v5
+      with:
+        context: "{{defaultContext}}:app"
+        push: true
+        tags: ewertonrdr/app:${{ github.sha }}
 
   aws-credentials:
     runs-on: ubuntu-latest
