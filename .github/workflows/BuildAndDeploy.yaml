@@ -27,7 +27,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASS }}
 
     - name: Build Image
-      run: docker build -t ewertonrdr/app:${{ github.sha }}
+      run: docker build -t ewertonrdr/app:${{ github.sha }} .
 
     - name: Push Image
       run: docker push ewertonrdr/app:${{ github.sha }}
@@ -54,17 +54,17 @@ jobs:
 
     - name: Terraform Init
       run: |
-        cd infra
+        cd /infra
         terraform init
 
     - name: Terraform Validate
       run: |
-        cd infra
+        cd /infra
         terraform validate -no-color
 
     - name: Terraform Plan
       run: |
-        cd infra
+        cd /infra
         terraform plan -no-color
       continue-on-error: true
 
