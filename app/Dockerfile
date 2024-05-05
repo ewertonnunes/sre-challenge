@@ -1,4 +1,4 @@
-FROM openjdk:22-alpine
+FROM openjdk:22-jdk-slim
 
 WORKDIR app
 
