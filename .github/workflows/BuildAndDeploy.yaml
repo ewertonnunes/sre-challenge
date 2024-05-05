@@ -61,7 +61,7 @@ jobs:
       with:
         terraform_version: 1.0.0
       env:
-        TF_ACTION_WORKING_DIR: 'terraform'
+        TF_ACTION_WORKING_DIR: 'infra'
         
     - name: Terraform Init
       run: terraform init
