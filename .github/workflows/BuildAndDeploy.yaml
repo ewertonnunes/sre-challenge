@@ -21,6 +21,9 @@ jobs:
     - name: Maven build JAR artifact 
       run: mvn -f app/pom.xml -B clean package
 
+    - name: Move Jar artifact to /app dir
+      run: mv target/*.jar app/app.jar
+
   docker:
      name: Build Docker Image
      runs-on: ubuntu-latest
