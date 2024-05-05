@@ -12,3 +12,4 @@ docker push ewertonrdr/app:latest
 
 
 helm package ./app -d ./helm --version ${{ github.sha }}
+

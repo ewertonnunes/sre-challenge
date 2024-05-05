@@ -33,11 +33,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASS }}
 
-      - name: Build Image
-        run: docker build -t ewertonrdr/app:${{ github.sha }} .
-
-      - name: Push Image
-        run: docker push ewertonrdr/app:${{ github.sha }}
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: app
+          push: true
+          tags: ewertonrdr/app:${{ github.sha }}
 
   aws-credentials:
     runs-on: ubuntu-latest
