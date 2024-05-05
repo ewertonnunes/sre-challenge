@@ -117,4 +117,4 @@ jobs:
       run: echo "::set-output name=docker_version::$(echo ${{ github.sha }} | cut -c1-7)"
 
     - name: Create Helm Release
-      run: helm upgrade --install app --set image.tag=${{ steps.docker_image_version.outputs.docker_version }} ewertonrdr/app --version 1.0.0 ./helm
+      run: helm upgrade --install app --set image.tag=${{ steps.docker_image_version.outputs.docker_version }} ewertonrdr/app --version 1.0.0 .
