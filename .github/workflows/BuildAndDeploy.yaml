@@ -49,22 +49,23 @@ jobs:
     steps:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.0.0
 
     - name: Terraform Init
       run: |
-      cd infra
-      terraform  init
+        cd infra
+        terraform init
 
     - name: Terraform Validate
       run: |
-      cd infra
-      terraform  validate -no-color
+        cd infra
+        terraform validate -no-color
 
     - name: Terraform Plan
       run: |
-      cd infra
-      terraform  plan -no-color
-
+        cd infra
+        terraform plan -no-color
       continue-on-error: true
 
     - name: Check Destroy flag 
@@ -81,12 +82,12 @@ jobs:
       id: apply
       if: github.ref == 'refs/heads/main' && steps.check_destroy.outputs.destroy == 'false'
       run: |
-      cd infra
-      terraform  apply -auto-approve -no-color
+        cd infra
+        terraform apply -auto-approve -no-color
 
     - name: Terraform Destroy
       id: destroy
       if: steps.check_destroy.outputs.destroy == 'true'
       run: |
-      cd infra
-      terraform destroy -auto-approve
+        cd infra
+        terraform destroy -auto-approve
