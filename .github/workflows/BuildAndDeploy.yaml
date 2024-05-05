@@ -18,30 +18,24 @@ jobs:
       with:
         java-version: 11
       
-    - name: Maven build JAR artifact 
+    - name: Maven Build JAR Artifact 
       run: mvn -f app/pom.xml -B clean package
 
 #    - name: Move Jar artifact to /app dir
 #      run: mv app/target/*.jar app/app.jar
 
-  docker:
-     name: Build Docker Image
-     runs-on: ubuntu-latest
-     needs: build
+     - name: Login Docker Hub
+       uses: docker/login-action@v1
+       with:
+         username: ${{ secrets.DOCKERHUB_USERNAME }}
+         password: ${{ secrets.DOCKERHUB_PASS }}
 
-     steps: 
-      - name: Login Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASS }}
-
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: "{{defaultContext}}:app"
-          push: true
-          tags: ewertonrdr/app:${{ github.sha }}
+     - name: Build and Push
+       uses: docker/build-push-action@v5
+       with:
+         context: "{{defaultContext}}:app"
+         push: true
+         tags: ewertonrdr/app:${{ github.sha }}
 
   aws-credentials:
     runs-on: ubuntu-latest

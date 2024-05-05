@@ -13,3 +13,10 @@ docker push ewertonrdr/app:latest
 
 helm package ./app -d ./helm --version ${{ github.sha }}
 
+
+  docker:
+     name: Build Docker Image
+     runs-on: ubuntu-latest
+     needs: build
+
+     steps: 
