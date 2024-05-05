@@ -55,9 +55,10 @@ jobs:
       - build
       - aws-credentials
 
-    - name: Checkout Repo
-      uses: actions/checkout@v1
-        
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
     - name: Terraform Init
       uses: hashicorp/terraform-github-actions/init@v0.4.0
       env:
