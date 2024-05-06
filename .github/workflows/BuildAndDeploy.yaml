@@ -51,9 +51,9 @@ jobs:
   terraform:
     name: Terraform Execution Steps
     runs-on: ubuntu-latest
-  defaults:
-    run:
-      working-directory: ./infra
+    defaults:
+      run:
+        working-directory: ./infra
 #    needs: 
 #      - build
 #      - aws-credentials
