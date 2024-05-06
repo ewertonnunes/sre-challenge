@@ -51,26 +51,20 @@ jobs:
   terraform:
     name: Terraform Execution Steps
     runs-on: ubuntu-latest
+  defaults:
+    run:
+      working-directory: ./infra
 #    needs: 
 #      - build
 #      - aws-credentials
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
     - name: Terraform Init
       uses: hashicorp/terraform-github-actions/init@v0.4.0
-      env:
-        TF_ACTION_WORKING_DIR: 'infra'
 
     - name: Terraform Validate
       uses: hashicorp/terraform-github-actions/validate@v0.3.7
 
     - name: Terraform Plan
       uses: hashicorp/terraform-github-actions/apply@v0.4.0
-      env:
-        TF_ACTION_WORKING_DIR: 'infra'
 
       continue-on-error: true
 
@@ -87,14 +81,10 @@ jobs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && steps.check_destroy.outputs.destroy == 'false'
       uses: hashicorp/terraform-github-actions/apply@v0.4.0
-      env:
-        TF_ACTION_WORKING_DIR: 'infra'
 
     - name: Terraform Destroy
       if: steps.check_destroy.outputs.destroy == 'true'
       uses: hashicorp/terraform-github-actions/apply@v0.4.0
-      env:
-        TF_ACTION_WORKING_DIR: 'infra'
 
   kubernetes:
     name: EKS Auth And Helm Deploy
