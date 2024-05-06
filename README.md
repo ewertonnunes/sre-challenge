@@ -5,7 +5,8 @@ Language: 'Java 11'
 
 ## Estrutura de diretórios ##
 
-.
+```plaintext
+
 ├── LICENSE
 ├── README.md
 ├── .github
@@ -57,21 +58,17 @@ Language: 'Java 11'
     ├── securitygroup.tf
     ├── terraform.tfvars
     └── variables.tf
+´´´
 
+Diretórios: 
 
-
-# Diretórios: #
-
-## ".github/workflows" ## 
+/.github/workflows
     Diretório que contém todas as configurações do Pipeline Actions do repositório.
-
-## app ##
+/app
     Diretório que contém todas os arquivos da aplicação Java - Hello World.
-
-## helm ##
+/helm
     Diretório que contém todos os manifestos de configuração do Helm Chart da aplicação.
-
-## infra ##
+/infra
     Diretório que contém todos os arquivos de configuração de Infra-as-code.
 
     
