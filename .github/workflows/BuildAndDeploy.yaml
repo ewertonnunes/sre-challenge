@@ -84,6 +84,10 @@ jobs:
       - terraform
 
     steps:
+
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
     - name: Set Up Kube Config Data
       uses: azure/setup-kubectl@v1
       with:
@@ -96,5 +100,21 @@ jobs:
       id: docker_image_version
       run: echo "::set-output name=docker_version::$(echo ${{ github.sha }} | cut -c1-7)"
 
-    - name: Create Helm Release
-      run: helm upgrade --install app --set image.tag=${{ steps.docker_image_version.outputs.docker_version }} ewertonrdr/app --version 1.0.0 .
+    - name: Setup Helm
+      uses: azure/setup-helm@v1
+      with:
+        version: 'latest'
+
+    - name: Update Chart.yaml
+      run: |
+        sed -i "s/^version:.*/version: $VERSION/" helm/Chart.yaml
+      env:
+        VERSION: ${{ github.run_number }}
+
+    - name: Deploy with Helm
+      run: |
+        cd helm
+        helm upgrade --install app
+
+#    - name: Create Helm Release
+#      run: helm upgrade --install app --set image.tag=${{ steps.docker_image_version.outputs.docker_version }} ewertonrdr/app --version 1.0.0
