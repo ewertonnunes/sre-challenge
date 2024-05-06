@@ -1,4 +1,4 @@
-resource "aws_route53_record" "app" {
+resource "aws_route53_record" "app_cname" {
   zone_id = "Z02164713IB9NZTMDH6HU"
   name    = "app.ezton.net"
   type    = "CNAME"
