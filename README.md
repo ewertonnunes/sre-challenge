@@ -5,67 +5,59 @@ Language: 'Java 11'
 
 ## Estrutura de diretórios ##
 
-│   LICENSE
-│   README.md
-│
-├───.github
-│   └───workflows
-│           BuildAndDeploy.yaml
-│
-├───app
-│   │   .gitignore
-│   │   Dockerfile
-│   │   mvnw
-│   │   mvnw.cmd
-│   │   pom.xml
-│   │
-│   ├───.mvn
-│   │   └───wrapper
-│   │           maven-wrapper.jar
-│   │           maven-wrapper.properties
-│   │
-│   └───src
-│       ├───main
-│       │   ├───java
-│       │   │   └───com
-│       │   │       └───example
-│       │   │           └───app
-│       │   │                   AppAController.java
-│       │   │                   AppApplication.java
-│       │   │
-│       │   └───resources
-│       │           application.properties
-│       │
-│       └───test
-│           └───java
-│               └───com
-│                   └───example
-│                       └───app
-│                               AppApplicationTests.java
-│
-├───helm
-│   │   .helmignore
-│   │   Chart.yaml
-│   │   values.yaml
-│   │
-│   └───templates
-│       │   deployment.yaml
-│       │   ingress.yaml
-│       │   service.yaml
-│       │   serviceaccount.yaml
-│       │   _helpers.tpl
-│       │
-│       └───tests
-│               test-connection.yaml
-│
-└───infra
-        cleaning.json
-        loadbalancer.tf
-        provider.tf
-        route53.tf
-        securitygroup.tf
-        terraform.tfvars
-        variables.tf
+.
+├── LICENSE
+├── README.md
+├── .github
+│   └── workflows
+│       └── BuildAndDeploy.yaml
+├── app
+│   ├── .gitignore
+│   ├── Dockerfile
+│   ├── mvnw
+│   ├── mvnw.cmd
+│   ├── pom.xml
+│   ├── .mvn
+│   │   └── wrapper
+│   │       ├── maven-wrapper.jar
+│   │       └── maven-wrapper.properties
+│   └── src
+│       ├── main
+│       │   ├── java
+│       │   │   └── com
+│       │   │       └── example
+│       │   │           └── app
+│       │   │               ├── AppAController.java
+│       │   │               └── AppApplication.java
+│       │   └── resources
+│       │       └── application.properties
+│       └── test
+│           └── java
+│               └── com
+│                   └── example
+│                       └── app
+│                           └── AppApplicationTests.java
+├── helm
+│   ├── .helmignore
+│   ├── Chart.yaml
+│   ├── values.yaml
+│   └── templates
+│       ├── deployment.yaml
+│       ├── ingress.yaml
+│       ├── service.yaml
+│       ├── serviceaccount.yaml
+│       ├── _helpers.tpl
+│       └── tests
+│           └── test-connection.yaml
+└── infra
+    ├── cleaning.json
+    ├── loadbalancer.tf
+    ├── provider.tf
+    ├── route53.tf
+    ├── securitygroup.tf
+    ├── terraform.tfvars
+    └── variables.tf
+
 
 
 # Diretórios: #
