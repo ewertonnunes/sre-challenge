@@ -26,4 +26,4 @@ jobs:
           branch: ${{ steps.get_branch.outputs.branch }}
           base: main
           body: |
-            This PR was automatically opened for a feature branch.
+            This PR was automatically opened for a feature branch
