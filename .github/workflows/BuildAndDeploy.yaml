@@ -136,10 +136,10 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
-#    - name: Set Up Kube Config Data
-#      uses: azure/setup-kubectl@v1
-#      env:
-#       KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+    - name: Set Up Kube Config Data
+      uses: azure/setup-kubectl@v1
+      env:
+       KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
 
     - name: Update kube config
       run: aws eks update-kubeconfig --name app-eks-cluster --region us-east-1
