@@ -113,7 +113,9 @@ jobs:
 
       - name: Terraform Destroy
         if: steps.check_destroy.outputs.destroy == 'true'
-        run: terraform destroy -auto-approve
+        run: |
+          cd  infra
+          terraform destroy -auto-approve
 
   kubernetes:
     name: EKS Auth And Helm Deploy
