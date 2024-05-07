@@ -1,5 +1,5 @@
 resource "aws_route53_record" "app_cname" {
-  zone_id = "Z02164713IB9NZTMDH6HU"
+  zone_id = var.zone_id
   name    = "app.ezton.net"
   type    = "CNAME"
   ttl     = 300
