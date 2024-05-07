@@ -56,6 +56,7 @@ jobs:
         ECR_URL: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
         ECR_REPOSITORY: ${{ github.event.repository.name }}
         TAG_LATEST: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/${{ github.event.repository.name }}:${{ github.sha }}
+        IMAGE_TAG: ${{ steps.commit.outputs.short }
         
   terraform:
     name: 'Terraform Set Up Deploy'
@@ -128,10 +129,20 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Set Up Kube Config Data
-      uses: azure/setup-kubectl@v1
-      env:
-       KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+#    - name: Set Up Kube Config Data
+#      uses: azure/setup-kubectl@v1
+#      env:
+#       KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+
+    - name: Update kube config
+      run: aws eks update-kubeconfig --name app-eks-cluster --region us-east-1
 
     - name: Get Docker Image Version
       id: docker_image_version
@@ -151,4 +162,4 @@ jobs:
     - name: Deploy with Helm
       run: |
         cd helm
-        helm upgrade --install app --set image.tag=${{ steps.docker_image_version.outputs.docker_version }} ${{ github.event.repository.name }}
+        helm upgrade --install app  .
