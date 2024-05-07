@@ -34,7 +34,14 @@ jobs:
         registry: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
 
     - name: Create ECR Repo
-      run: aws ecr create-repository --repository-name ${{ github.event.repository.name }}
+      run: |
+        set +e
+        aws ecr describe-repositories --repository-names "${{ github.event.repository.name }}" > /dev/null 2>&1
+        if [ $? -eq 0 ]; then
+          echo "O repositório já existe."
+        else
+          aws ecr create-repository --repository-name "${{ github.event.repository.name }}"
+        fi
 
     - name: Build and Push to ECR
       uses: docker/build-push-action@v5
