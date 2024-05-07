@@ -55,7 +55,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build
-      - docker
 
     steps:
       - name: Configure AWS credentials for Terraform
@@ -114,7 +113,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build
-      - docker
       - terraform
 
     steps:
