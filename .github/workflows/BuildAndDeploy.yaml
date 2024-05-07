@@ -5,7 +5,7 @@ on:
     types: [submitted]
   push:
     branches:
-      - main
+      - dev
 
 jobs:
   build:
