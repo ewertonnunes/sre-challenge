@@ -34,9 +34,6 @@ jobs:
     - name: Create ECR Repo
       run: aws ecr create-repository --repository-name ${{ github.event.repository.name }}
 
-    - name: ECR URL Address
-      run: echo "Repositório Criado: ${{ steps.create-ecr-repo.outputs.repository.uri }}"
-
     - name: Build and Push to ECR
       uses: docker/build-push-action@v5
         with:
