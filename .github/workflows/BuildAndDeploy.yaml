@@ -52,7 +52,11 @@ jobs:
         context: app
         push: true
         tags: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/${{ github.event.repository.name }}:${{ github.sha }}, ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/${{ github.event.repository.name }}:latest
-
+      env:
+        ECR_URL: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
+        ECR_REPOSITORY: ${{ github.event.repository.name }}
+        TAG_LATEST: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/${{ github.event.repository.name }}:${{ github.sha }}
+        
   terraform:
     name: 'Terraform Set Up Deploy'
     runs-on: ubuntu-latest
