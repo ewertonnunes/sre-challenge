@@ -1,5 +1,5 @@
 
-# Java App Hello World #
+# Java App Hello World
 
 Temos neste repositório uma aplicação em Java com uma API REST que responde um Hello World quando recebe um GET na porta 8080. 
 
@@ -8,7 +8,7 @@ Temos neste repositório uma aplicação em Java com uma API REST que responde u
 Output: 
     { "mensagem" : "Olá, Mundo" }
 
-## Stack utilizada ##
+## Stack utilizada
 
 ```
 **Back-end:** Java
@@ -19,7 +19,7 @@ Output:
 **Cloud Provider**: AWS
 ``` 
 
-## Estrutura de diretórios ##
+## Hierárquia de diretórios
 
 <details><summary> Clique para expandir</summary>
 <p>
@@ -150,12 +150,12 @@ No modules.
 </details>
 
 
-## Configuração do Repositório e efetuar deployment ##
+## Configuração e Deployment ##
 
 <details><summary> Clique para expandir</summary>
 <p>
 
-### Step 1: 
+### Step 1: Configurando credenciais AWS como Secret no Github
 
     - Crie suas credenciais na AWS e configure as secrets no Github:
 
@@ -169,7 +169,7 @@ https://docs.github.com/pt/actions/security-guides/using-secrets-in-github-actio
 
 <img src="https://docs.github.com/assets/cb-62141/mw-1440/images/help/repository/actions-secrets-tab.webp">
 
-### Step 2:
+### Step 2: Configurando EKS Config Context
 
     - Colete as configurações de contexto do seu cluster EKS na AWS e armazene numa Secret do Github com o nome KUBE_CONFIG_DATA.
 
@@ -179,7 +179,7 @@ https://docs.github.com/pt/actions/security-guides/using-secrets-in-github-actio
     - Copie o conteúdo do  '~/.kube/config' e crie a secret no Github.
       KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
 
-### Step 3: 
+### Step 3: Configurando terraform.tfvars
 
     - Para fazer deploy preencha as configurações conforme instruções no 'terraform.tfvars', substitua pelos valores da sua conta AWS.
 ```
@@ -192,7 +192,7 @@ eks_cluster_name   = "eks-cluster"
 zone_id            = "DKHNIA123"
 ``` 
 
-### Step 4:
+### Step 4: Fazendo Push e Commit
 
     - Clone o repositório, escreva um commit e faça um push na branch "main".
     
@@ -206,12 +206,15 @@ zone_id            = "DKHNIA123"
 </p>
 </details>    
 
-## Como destruir a infraestrutura :
+## Como destruir a infraestrutura - Terraform Destroy:
 
 <details><summary> Clique para expandir</summary>
 <p>
 
-    - Para destruir a infra utilize o arquivo "/infra/cleaning.json" e atribua o valor { "destroy" : "true" }
+    - Para destruir a infra utilize o arquivo "/infra/cleaning.json" e atribua o valor:
+
+        '{ "destroy" : "true" }'
+
     - Esta configuração executará um terraform destroy em todos os elementos da infra.
 </p>
 </details>
