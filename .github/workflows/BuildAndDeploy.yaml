@@ -136,13 +136,8 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
-    - name: Set Up Kube Config Data
-      uses: azure/setup-kubectl@v1
-      env:
-       KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-
     - name: Update kube config
-      run: aws eks update-kubeconfig --name app-eks-cluster --region us-east-1
+      run: aws eks update-kubeconfig --name app-eks-cluster --region us-east-1 || kubectl get nodes
 
     - name: Get Docker Image Version
       id: docker_image_version
@@ -160,6 +155,4 @@ jobs:
         VERSION: ${{ github.run_number }}
 
     - name: Deploy with Helm
-      run: |
-        cd helm
-        helm upgrade --install app  .
+      run: helm upgrade --install app  ./helm
