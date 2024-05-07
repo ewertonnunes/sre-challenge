@@ -19,6 +19,9 @@ Output:
 **Cloud Provider**: AWS
 ``` 
 
+<details><summary> Clique para expandir</summary>
+
+
 ## Estrutura de diretórios ##
 
 ```plaintext
@@ -76,6 +79,10 @@ Output:
     └── variables.tf
 ```
 <!-- BEGIN_TF_DOCS -->
+
+<details><summary> Clique para expandir</summary>
+
+
 ## Diretórios ##
 
 |   Diretório       | Descrição |
@@ -102,6 +109,17 @@ Output:
 
 No modules.
 
+## Terraform Arquivos.
+
+| Name | Descrição |
+|------|-----------|
+|`provider.tf` | Arquivo que contém configurações de provider terraform, tais como backend state e versão do binário.|
+|`loadbalancer.tf` | Arquivo que contém as configurações do Load Balancer |
+|`route53.tf` | Arquivo que contém as configurações do Route53. |
+|`securitygroup.tf` | Arquivo que contém as configurações do Security Group. |
+|`terraform.tfvars` | Arquivo que contém entradas de variáveis do Terraform. |
+|`variables.tf` | Arquivo que contém as declarações de variáveis e seus tipos.|
+
 ## Resources
 
 | Name | Type | File |
@@ -109,7 +127,6 @@ No modules.
 | `aws_lb.app_load_balancer`      | resource | loadbalancer.tf |
 | `aws_route53_record.app_cname`  | resource | route53.tf |
 | `aws_security_group.sg_load_balancer`  | resource | securitygroup.tf |
-
 
 ## Inputs terraform.tfvars 
 
@@ -122,6 +139,10 @@ No modules.
 | `vpc_id`           |  ID da VPC                                     | `string`          | "vpc-0857ec9c2dc1874af" | yes |
 | `eks_cluster_name` | Nome do Cluster EKS                            | `string`          | "eks-cluster" | yes |
 | `zone_id`          | ID da Zona DNS - Route53                       | `string`          |   = "DKHNIA123" | yes
+
+<details><summary> Clique para expandir</summary>
+
+
 ## Configuração do Repositório e Deployment ##
 
 ### Step 1: 
@@ -159,10 +180,14 @@ zone_id            = "DKHNIA123"
 ``` 
 
 ### Step 4:
+
     - Faça um commit na branch main para criar sua aplicação e infraestrutura.
 
-    `git add . && git commit -m "Meu primeiro deploy" && git push`
+    git add . 
+    git commit -m "Meu primeiro deploy" 
+    git push
 
 ### Como destruir a infraestrutura :
+
     - Para destruir a infra utilize o arquivo "/infra/cleaning.json" e atribua o valor { "destroy" : "true" }
     - Esta configuração executará um terraform destroy em todos os elementos da infra.
