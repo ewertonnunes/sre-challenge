@@ -164,4 +164,6 @@ zone_id            = "DKHNIA123"
 
     `git add . && git commit -m "Meu primeiro deploy" && git push`
 
-
+### Step 5:
+    - Para os destruir a infra utilize o arquivo "/infra/cleaning.json" e atribua o valor { "destroy" : "true" }
+    - Esta configuração executará um terraform destroy em todos os elementos da infra.
