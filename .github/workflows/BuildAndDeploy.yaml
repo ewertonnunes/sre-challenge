@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Build JAR Artifact and Build Docker Image
+    name: Build Test JAR Artifact - Build Docker Image
     runs-on: ubuntu-latest
 
     steps:
@@ -27,12 +27,22 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASS }}
 
-    - name: Build and Push
-      uses: docker/build-push-action@v5
-      with:
-        context: app
-        push: true
-        tags: ewertonrdr/app:${{ github.sha }}, ewertonrdr/app:latest
+    - name: Login to AWS ECR
+      uses: aws-actions/amazon-ecr-login@v1
+      run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
+
+    - name: Create ECR Repo
+      run: aws ecr create-repository --repository-name ${{ github.event.repository.name }}
+
+    - name: ECR URL Address
+      run: echo "Repositório Criado: ${{ steps.create-ecr-repo.outputs.repository.uri }}"
+
+    - name: Build and Push to ECR
+        uses: docker/build-push-action@v5
+        with:
+          context: app
+          push: true
+          tags: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/${{ github.event.repository.name }}:${{ github.sha }}, ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/${{ github.event.repository.name }}:latest
 
   terraform:
     name: 'Terraform'
@@ -71,10 +81,25 @@ jobs:
 
         continue-on-error: true
 
+      - name: Check Destroy flag 
+        id: check_destroy
+        run: |
+          content=$(jq -r .destroy cleaning.json)
+          if [[ $content == "true" ]]; then
+            echo "::set-output name=destroy::true"
+          else
+            echo "::set-output name=destroy::false"
+          fi
+
       - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && steps.check_destroy.outputs.destroy == 'false'
         run: |
           cd  infra
           terraform apply -auto-approve -no-color
+
+      - name: Terraform Destroy
+        if: steps.check_destroy.outputs.destroy == 'true'
+        run: terraform destroy -auto-approve
 
   kubernetes:
     name: EKS Auth And Helm Deploy
@@ -84,15 +109,11 @@ jobs:
       - terraform
 
     steps:
-
     - name: Checkout Repository
       uses: actions/checkout@v2
 
     - name: Set Up Kube Config Data
       uses: azure/setup-kubectl@v1
-      with:
-        eks-region: us-east-1
-        eks-cluster-name: app-eks-cluster
       env:
        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
 
@@ -114,7 +135,4 @@ jobs:
     - name: Deploy with Helm
       run: |
         cd helm
-        helm upgrade --install app
-
-#    - name: Create Helm Release
-#      run: helm upgrade --install app --set image.tag=${{ steps.docker_image_version.outputs.docker_version }} ewertonrdr/app --version 1.0.0
+        helm upgrade --install app --set image.tag=${{ steps.docker_image_version.outputs.docker_version }} ${{ github.event.repository.name }}
