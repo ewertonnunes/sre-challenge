@@ -56,7 +56,7 @@ jobs:
         ECR_URL: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
         ECR_REPOSITORY: ${{ github.event.repository.name }}
         TAG_LATEST: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/${{ github.event.repository.name }}:${{ github.sha }}
-        IMAGE_TAG: ${{ steps.commit.outputs.short }
+        IMAGE_TAG: ${{ steps.commit.outputs.short }}
         
   terraform:
     name: 'Terraform Set Up Deploy'
