@@ -83,6 +83,7 @@ jobs:
       - name: Check Destroy flag 
         id: check_destroy
         run: |
+          cd infra
           content=$(jq -r .destroy cleaning.json)
           if [[ $content == "true" ]]; then
             echo "::set-output name=destroy::true"
