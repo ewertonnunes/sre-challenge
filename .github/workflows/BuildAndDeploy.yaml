@@ -23,11 +23,12 @@ jobs:
 
     - name: Login to AWS ECR
       uses: aws-actions/amazon-ecr-login@v1
-      run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
+      with:
+        registry: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
 
     - name: Create ECR Repo
       run: aws ecr create-repository --repository-name ${{ github.event.repository.name }}
-      
+
     - name: Build and Push to ECR
       uses: docker/build-push-action@v5
       with:
