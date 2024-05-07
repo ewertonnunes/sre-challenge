@@ -3,3 +3,5 @@ subnets            = ["subnet-02a847612875d595f", "subnet-094a63fc4a2245b06", "s
 internal           = false
 load_balancer_type = "application"
 vpc_id             = "vpc-0857ec9c2dc1874af"
+eks_cluster_name   = "app-eks-cluster"
+zone_id            = "Z02164713IB9NZTMDH6HU"
