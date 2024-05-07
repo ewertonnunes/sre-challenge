@@ -24,6 +24,8 @@ jobs:
   docker:
     name: Build Image and Upload to ECR
     runs-on: ubuntu-latest
+    needs: 
+      - build
 
     steps:
     - name: Configure AWS credentials

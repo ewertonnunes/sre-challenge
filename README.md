@@ -10,15 +10,14 @@ Output:
 
 ## Stack utilizada ##
 
+```
 **Back-end:** Java
-
 **Infra-as-code**: Terraform
-
 **Package Manager**: Helm
-
 **Container Runtime**: Docker
-
+**Container Repository**: Amazon ECR
 **Cloud Provider**: AWS
+``` 
 
 ## Estrutura de diretórios ##
 
@@ -123,7 +122,7 @@ No modules.
 | `vpc_id`           |  ID da VPC                                     | `string`          | "vpc-0857ec9c2dc1874af" | yes |
 | `eks_cluster_name` | Nome do Cluster EKS                            | `string`          | "eks-cluster" | yes |
 
-## Instalação ##
+## Configuração do Repositório e Deployment ##
 
 ### Step 1: 
     - Crie suas credenciais na AWS e configure as secrets no Github:
@@ -164,6 +163,6 @@ zone_id            = "DKHNIA123"
 
     `git add . && git commit -m "Meu primeiro deploy" && git push`
 
-### Step 5:
-    - Para os destruir a infra utilize o arquivo "/infra/cleaning.json" e atribua o valor { "destroy" : "true" }
+### Como destruir a infraestrutura :
+    - Para destruir a infra utilize o arquivo "/infra/cleaning.json" e atribua o valor { "destroy" : "true" }
     - Esta configuração executará um terraform destroy em todos os elementos da infra.
