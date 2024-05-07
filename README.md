@@ -21,6 +21,9 @@ Output:
 
 ## Estrutura de diretórios ##
 
+<details><summary> Clique para expandir</summary>
+<p>
+
 ```plaintext
 
 ├── LICENSE
@@ -75,7 +78,17 @@ Output:
     ├── terraform.tfvars
     └── variables.tf
 ```
+
+</p>
+</details>
+
 <!-- BEGIN_TF_DOCS -->
+
+## Estruturação Terraform 
+
+<details><summary> Clique para expandir</summary>
+<p>
+
 ## Diretórios ##
 
 |   Diretório       | Descrição |
@@ -102,6 +115,17 @@ Output:
 
 No modules.
 
+## Arquivos
+
+| Name | Descrição |
+|------|-----------|
+|`provider.tf` | Arquivo que contém configurações de provider terraform, tais como backend state e versão do binário.|
+|`loadbalancer.tf` | Arquivo que contém as configurações do Load Balancer |
+|`route53.tf` | Arquivo que contém as configurações do Route53. |
+|`securitygroup.tf` | Arquivo que contém as configurações do Security Group. |
+|`terraform.tfvars` | Arquivo que contém entradas de variáveis do Terraform. |
+|`variables.tf` | Arquivo que contém as declarações de variáveis e seus tipos.|
+
 ## Resources
 
 | Name | Type | File |
@@ -109,7 +133,6 @@ No modules.
 | `aws_lb.app_load_balancer`      | resource | loadbalancer.tf |
 | `aws_route53_record.app_cname`  | resource | route53.tf |
 | `aws_security_group.sg_load_balancer`  | resource | securitygroup.tf |
-
 
 ## Inputs terraform.tfvars 
 
@@ -122,14 +145,23 @@ No modules.
 | `vpc_id`           |  ID da VPC                                     | `string`          | "vpc-0857ec9c2dc1874af" | yes |
 | `eks_cluster_name` | Nome do Cluster EKS                            | `string`          | "eks-cluster" | yes |
 | `zone_id`          | ID da Zona DNS - Route53                       | `string`          |   = "DKHNIA123" | yes
-## Configuração do Repositório e Deployment ##
+
+</p>
+</details>
+
+
+## Configuração do Repositório e efetuar deployment ##
+
+<details><summary> Clique para expandir</summary>
+<p>
 
 ### Step 1: 
+
     - Crie suas credenciais na AWS e configure as secrets no Github:
 
-    `aws-access-key-id:      ${{ secrets.AWS_ACCESS_KEY_ID }}`
-    `aws-secret-access-key:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}`
-    `aws-account-id:         ${{ secrets.AWS_ACCOUNT_ID }}`
+    aws-access-key-id:      ${{ secrets.AWS_ACCESS_KEY_ID }}
+    aws-secret-access-key:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    aws-account-id:         ${{ secrets.AWS_ACCOUNT_ID }}
 
 https://docs.github.com/pt/actions/security-guides/using-secrets-in-github-actions
 
@@ -138,16 +170,18 @@ https://docs.github.com/pt/actions/security-guides/using-secrets-in-github-actio
 <img src="https://docs.github.com/assets/cb-62141/mw-1440/images/help/repository/actions-secrets-tab.webp">
 
 ### Step 2:
+
     - Colete as configurações de contexto do seu cluster EKS na AWS e armazene numa Secret do Github com o nome KUBE_CONFIG_DATA.
 
     - Acesse o CloudShell da sua Conta AWS:
-      `aws eks update-kubeconfig --name eks-cluster --region us-east-1`
+      aws eks update-kubeconfig --name eks-cluster --region us-east-1
 
-    - Copie o conteúdo do  `~/.kube/config` e crie a secret no Github.
+    - Copie o conteúdo do  '~/.kube/config' e crie a secret no Github.
       KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
 
 ### Step 3: 
-    - Para fazer deploy preencha as configurações conforme instruções no `terraform.tfvars`, substitua pelos valores da sua conta AWS.
+
+    - Para fazer deploy preencha as configurações conforme instruções no 'terraform.tfvars', substitua pelos valores da sua conta AWS.
 ```
 name               = "app"
 subnets            = ["subnet123"]
@@ -159,10 +193,25 @@ zone_id            = "DKHNIA123"
 ``` 
 
 ### Step 4:
-    - Faça um commit na branch main para criar sua aplicação e infraestrutura.
 
-    `git add . && git commit -m "Meu primeiro deploy" && git push`
+    - Clone o repositório, escreva um commit e faça um push na branch "main".
+    
+    git clone https://github.com/ewertonnunes/sre-challenge/
+    git add . 
+    git commit -m "Meu primeiro deploy" 
+    git push
 
-### Como destruir a infraestrutura :
+    - Ao efetuar o push automaticamente a esteira será disparada e fará criação da infra e deploy da aplicação.
+
+</p>
+</details>    
+
+## Como destruir a infraestrutura :
+
+<details><summary> Clique para expandir</summary>
+<p>
+
     - Para destruir a infra utilize o arquivo "/infra/cleaning.json" e atribua o valor { "destroy" : "true" }
     - Esta configuração executará um terraform destroy em todos os elementos da infra.
+</p>
+</details>
