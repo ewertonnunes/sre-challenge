@@ -1,5 +1,8 @@
 name: Build, Test JAR and Create Image
+
 on:
+  pull_request_review:
+    types: [submitted]
   push:
     branches:
       - main
@@ -51,7 +54,7 @@ jobs:
         tags: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/${{ github.event.repository.name }}:${{ github.sha }}, ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/${{ github.event.repository.name }}:latest
 
   terraform:
-    name: 'Terraform'
+    name: 'Terraform Set Up Deploy'
     runs-on: ubuntu-latest
     needs:
       - build
