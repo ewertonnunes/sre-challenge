@@ -27,13 +27,13 @@ jobs:
 
     - name: Create ECR Repo
       run: aws ecr create-repository --repository-name ${{ github.event.repository.name }}
-
+      
     - name: Build and Push to ECR
       uses: docker/build-push-action@v5
       with:
-          context: app
-          push: true
-          tags: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/${{ github.event.repository.name }}:${{ github.sha }}, ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/${{ github.event.repository.name }}:latest
+        context: app
+        push: true
+        tags: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/${{ github.event.repository.name }}:${{ github.sha }}, ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/${{ github.event.repository.name }}:latest
 
   terraform:
     name: 'Terraform'
