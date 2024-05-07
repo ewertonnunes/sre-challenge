@@ -121,7 +121,7 @@ No modules.
 | `internal`         |  Tipo de Balanceador                           | `string`          | application | yes |
 | `vpc_id`           |  ID da VPC                                     | `string`          | "vpc-0857ec9c2dc1874af" | yes |
 | `eks_cluster_name` | Nome do Cluster EKS                            | `string`          | "eks-cluster" | yes |
-
+| `zone_id`          | ID da Zona DNS - Route53                       | `string`          |   = "DKHNIA123" | yes
 ## Configuração do Repositório e Deployment ##
 
 ### Step 1: 
