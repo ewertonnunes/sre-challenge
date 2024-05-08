@@ -79,9 +79,9 @@ jobs:
       - name: Set Deploy Dir
         run: |
           if [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
-            echo "::set-env name=DEPLOY_DIR::dev"
+            echo "DEPLOY_DIR=dev" >> $GITHUB_ENV
           else
-            echo "::set-env name=DEPLOY_DIR::prod"
+            echo "DEPLOY_DIR=prod" >> $GITHUB_ENV
           fi
 
       - name: Use Deploy Dir
