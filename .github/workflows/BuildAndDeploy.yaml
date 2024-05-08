@@ -84,17 +84,21 @@ jobs:
             echo "::set-env name=DEPLOY_DIR::prod"
           fi
 
+      - name: Use Deploy Dir
+        run: |
+          echo "Deploy directory is $DEPLOY_DIR"
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
         run: |
-          cd infra/${{DEPLOY_DIR}}
+          cd infra/$DEPLOY_DIR
           terraform init
 
       - name: Terraform Plan
         run: |
-          cd infra/${{DEPLOY_DIR}}
+          cd infra/$DEPLOY_DIR
           terraform plan -var-file=terraform.tfvars
 
         continue-on-error: true
@@ -113,13 +117,13 @@ jobs:
       - name: Terraform Apply
         if: steps.check_destroy.outputs.destroy == 'false'
         run: |
-          cd infra/${{DEPLOY_DIR}}
+          cd infra/$DEPLOY_DIR
           terraform apply -var-file=terraform.tfvars -auto-approve
 
       - name: Terraform Destroy
         if: steps.check_destroy.outputs.destroy == 'true'
         run: |
-          cd infra/${{DEPLOY_DIR}}
+          cd infra/$DEPLOY_DIR
           terraform destroy -var-file=terraform.tfvars -auto-approve
 
   kubernetes:
