@@ -1,8 +1,6 @@
 name: Build, Test JAR and Create Image
 
 on:
-  pull_request_review:
-    types: [submitted]
   push:
     branches:
       - dev
@@ -81,15 +79,27 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+      - name: Set Deploy Dir
+        run: |
+          if [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
+            echo "DEPLOY_DIR=dev" >> $GITHUB_ENV
+          else
+            echo "DEPLOY_DIR=prod" >> $GITHUB_ENV
+          fi
+
+      - name: Use Deploy Dir
+        run: |
+          echo "Deploy directory is $DEPLOY_DIR"
+
       - name: Terraform Init
         run: |
-          cd infra/${{ github.ref == 'refs/heads/dev' ? 'dev' : 'prod' }}/terraform
-          terraform init
+          cd infra
+          terraform init -var-file=${{ env.DEPLOY_DIR }}/terraform.tfvars
 
       - name: Terraform Plan
         run: |
-          cd infra/${{ github.ref == 'refs/heads/dev' ? 'dev' : 'prod' }}/terraform
-          terraform plan -var-file=terraform.tfvars
+          cd infra
+          terraform plan -var-file=${{ env.DEPLOY_DIR }}/terraform.tfvars
 
         continue-on-error: true
 
@@ -107,14 +117,14 @@ jobs:
       - name: Terraform Apply
         if: steps.check_destroy.outputs.destroy == 'false'
         run: |
-          cd infra/${{ github.ref == 'refs/heads/dev' ? 'dev' : 'prod' }}/terraform
-          terraform apply -var-file=terraform.tfvars -auto-approve
+          cd infra
+          terraform apply -var-file=${{ env.DEPLOY_DIR }}/terraform.tfvars -auto-approve
 
       - name: Terraform Destroy
         if: steps.check_destroy.outputs.destroy == 'true'
         run: |
-          cd infra/${{ github.ref == 'refs/heads/dev' ? 'dev' : 'prod' }}/terraform
-          terraform destroy -var-file=terraform.tfvars -auto-approve
+          cd infra
+          terraform destroy -var-file=${{ env.DEPLOY_DIR }}/terraform.tfvars -auto-approve
 
   kubernetes:
     name: EKS Auth And Helm Deploy

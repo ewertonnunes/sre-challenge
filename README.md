@@ -194,14 +194,18 @@ zone_id            = "DKHNIA123"
 
 ### Step 4: Fazendo Push e Commit
 
-    - Clone o repositório, escreva um commit e faça um push na branch "main".
+    - Clone o repositório, escreva um commit e faça um push na branch "dev".
     
     git clone https://github.com/ewertonnunes/sre-challenge/
+    git checkout dev
     git add . 
     git commit -m "Meu primeiro deploy" 
     git push
 
-    - Ao efetuar o push automaticamente a esteira será disparada e fará criação da infra e deploy da aplicação.
+    - Ao efetuar o push automaticamente a esteira será disparada e fará criação da infra.
+    - E Deploy da aplicação no ambiente de desenvolvimento.
+    
+    - Para subir para produção abra um PR da branch DEV para MAIN e aprove, automaticamente a esteira será executada.
 
 </p>
 </details>    
