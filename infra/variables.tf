@@ -32,3 +32,4 @@ variable "zone_id" {
   type        = string
   description = "Nome da Zona de DNS do Route53"
 }
+    
