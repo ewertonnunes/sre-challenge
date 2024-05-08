@@ -3,10 +3,10 @@ name: Build, Test JAR and Create Image
 on:
   push:
     branches:
-      - 'dev'
+      - dev
   pull_request:
     branches:
-      - 'main'
+      - main
 
 jobs:
   build:
