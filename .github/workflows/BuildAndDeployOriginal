@@ -1,10 +1,9 @@
 name: Build, Test JAR and Create Image
 
 on:
+  pull_request_review:
+    types: [submitted]
   push:
-    branches:
-      - 'feature/*'
-  pull_request:
     branches:
       - dev
 
@@ -76,26 +75,23 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set Deploy Dir
-        run: |
-          if [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
-            echo "::set-env name=DEPLOY_DIR::dev"
-          else
-            echo "::set-env name=DEPLOY_DIR::prod"
-          fi
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
         run: |
-          cd infra/${{DEPLOY_DIR}}
+          cd  infra
           terraform init
+
+      - name: Terraform Validate
+        run: |
+          cd  infra
+          terraform validate
 
       - name: Terraform Plan
         run: |
-          cd infra/${{DEPLOY_DIR}}
-          terraform plan -var-file=terraform.tfvars
+          cd  infra
+          terraform plan
 
         continue-on-error: true
 
@@ -111,16 +107,16 @@ jobs:
           fi
 
       - name: Terraform Apply
-        if: steps.check_destroy.outputs.destroy == 'false'
+        if: github.ref == 'refs/heads/main' && steps.check_destroy.outputs.destroy == 'false'
         run: |
-          cd infra/${{DEPLOY_DIR}}
-          terraform apply -var-file=terraform.tfvars -auto-approve
+          cd  infra
+          terraform apply -auto-approve -no-color
 
       - name: Terraform Destroy
         if: steps.check_destroy.outputs.destroy == 'true'
         run: |
-          cd infra/${{DEPLOY_DIR}}
-          terraform destroy -var-file=terraform.tfvars -auto-approve
+          cd  infra
+          terraform destroy -auto-approve
 
   kubernetes:
     name: EKS Auth And Helm Deploy
