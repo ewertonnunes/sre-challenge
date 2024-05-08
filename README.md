@@ -204,7 +204,8 @@ zone_id            = "DKHNIA123"
 
     - Ao efetuar o push automaticamente a esteira será disparada e fará criação da infra.
     - E Deploy da aplicação no ambiente de desenvolvimento.
-    - Após faça a aprovação do PR para Main para executar deploy em Produção.
+    
+    - Para subir para produção abra um PR da branch DEV para MAIN e aprove, automaticamente a esteira será executada.
 
 </p>
 </details>    
