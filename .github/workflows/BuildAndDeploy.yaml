@@ -93,12 +93,12 @@ jobs:
 
       - name: Terraform Init
         run: |
-          cd infra/${{ DEPLOY_DIR }}
+          cd infra/${{ env.DEPLOY_DIR }}
           terraform init
 
       - name: Terraform Plan
         run: |
-          cd infra/${{ DEPLOY_DIR }}
+          cd infra/${{ env.DEPLOY_DIR }}
           terraform plan -var-file=terraform.tfvars
 
         continue-on-error: true
@@ -117,13 +117,13 @@ jobs:
       - name: Terraform Apply
         if: steps.check_destroy.outputs.destroy == 'false'
         run: |
-          cd infra/${{ DEPLOY_DIR }}
+          cd infra/${{ env.DEPLOY_DIR }}
           terraform apply -var-file=terraform.tfvars -auto-approve
 
       - name: Terraform Destroy
         if: steps.check_destroy.outputs.destroy == 'true'
         run: |
-          cd infra/${{ DEPLOY_DIR }}
+          cd infra/${{ env.DEPLOY_DIR }}
           terraform destroy -var-file=terraform.tfvars -auto-approve
 
   kubernetes:
